@@ -3,25 +3,25 @@ import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { format, isSameDay } from 'date-fns';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-export default function App() {
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [punchTime, setPunchTime] = useState(null);
-  const [workDuration, setWorkDuration] = useState(9 * 60 * 60 * 1000); // 9 hours
-  const [endTime, setEndTime] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(null);
+export default function App(): JSX.Element {
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [punchTime, setPunchTime] = useState<Date | null>(null);
+  const [workDuration, setWorkDuration] = useState<number>(9 * 60 * 60 * 1000); // 9 hours
+  const [endTime, setEndTime] = useState<Date | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
       if (endTime) {
-        const diff = Math.max(endTime - new Date(), 0);
+        const diff = Math.max(endTime.getTime() - new Date().getTime(), 0);
         setTimeLeft(diff);
       }
     }, 1000);
     return () => clearInterval(interval);
   }, [endTime]);
 
-  const handlePunch = () => {
+  const handlePunch = (): void => {
     const now = new Date();
     
     if (punchTime && isSameDay(punchTime, now)) {
@@ -34,14 +34,14 @@ export default function App() {
     setEndTime(end);
   };
 
-  const handleReset = () => {
+  const handleReset = (): void => {
     setPunchTime(null);
     setEndTime(null);
     setTimeLeft(null);
   };
 
-  const formatTime = (date) => format(date, 'HH:mm');
-  const formatCountdown = (ms) => {
+  const formatTime = (date: Date): string => format(date, 'HH:mm');
+  const formatCountdown = (ms: number): string => {
     const hours = Math.floor(ms / (1000 * 60 * 60));
     const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((ms % (1000 * 60)) / 1000);
@@ -77,4 +77,4 @@ export default function App() {
       </View>
     </PaperProvider>
   );
-}
+} 
