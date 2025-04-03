@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { format, isSameDay } from 'date-fns';
 import { Provider as PaperProvider } from 'react-native-paper';
 
@@ -24,7 +24,6 @@ export default function App() {
   const handlePunch = () => {
     const now = new Date();
     
-    // 檢查是否已經在同一天打卡
     if (punchTime && isSameDay(punchTime, now)) {
       Alert.alert('提示', '今天已經打卡過了！');
       return;
@@ -51,80 +50,31 @@ export default function App() {
 
   return (
     <PaperProvider>
-      <View style={styles.container}>
-        <View style={styles.card}>
-          <Text style={styles.title}>打卡提醒</Text>
-          <Text style={styles.text}>當前時間：{formatTime(currentTime)}</Text>
-          {punchTime && <Text style={styles.text}>上班時間：{formatTime(punchTime)}</Text>}
-          {endTime && <Text style={styles.text}>下班時間：{formatTime(endTime)}</Text>}
-          {timeLeft !== null && <Text style={styles.text}>倒計時：{formatCountdown(timeLeft)}</Text>}
+      <View className="flex-1 bg-gray-900 items-center justify-center p-5">
+        <View className="bg-gray-800 p-5 rounded-lg w-full mb-5">
+          <Text className="text-2xl font-bold text-white mb-2.5">打卡提醒</Text>
+          <Text className="text-white text-base mb-1">當前時間：{formatTime(currentTime)}</Text>
+          {punchTime && <Text className="text-white text-base mb-1">上班時間：{formatTime(punchTime)}</Text>}
+          {endTime && <Text className="text-white text-base mb-1">下班時間：{formatTime(endTime)}</Text>}
+          {timeLeft !== null && <Text className="text-white text-base mb-1">倒計時：{formatCountdown(timeLeft)}</Text>}
         </View>
-        <View style={styles.buttonContainer}>
+        <View className="flex-row justify-around w-full">
           <TouchableOpacity 
-            style={styles.button} 
+            className="w-[120px] h-[120px] rounded-full bg-blue-600 justify-center items-center active:bg-blue-700"
             onPress={handlePunch}
           >
-            <Text style={styles.buttonText}>
+            <Text className="text-white text-xl font-bold">
               {punchTime ? '重新打卡' : '打卡'}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            style={[styles.button, styles.resetButton]} 
+            className="w-[120px] h-[120px] rounded-full bg-red-600 justify-center items-center active:bg-red-700"
             onPress={handleReset}
           >
-            <Text style={styles.buttonText}>重置</Text>
+            <Text className="text-white text-xl font-bold">重置</Text>
           </TouchableOpacity>
         </View>
       </View>
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#1a1a1a',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  card: {
-    backgroundColor: '#2a2a2a',
-    padding: 20,
-    borderRadius: 10,
-    width: '100%',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 10,
-  },
-  text: {
-    color: 'white',
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-  },
-  button: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#2563eb',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  resetButton: {
-    backgroundColor: '#dc2626',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
