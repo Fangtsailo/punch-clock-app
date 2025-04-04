@@ -28,10 +28,6 @@ export default function PunchClock(): JSX.Element {
 
   const handlePunch = (): void => {
     const now = new Date();
-    if (punchTime && isSameDay(punchTime, now)) {
-      Alert.alert('提示', '今天已經打卡過了！');
-      return;
-    }
     setPunchTime(now);
     const end = new Date(now.getTime() + workDuration);
     setEndTime(end);
@@ -48,7 +44,7 @@ export default function PunchClock(): JSX.Element {
     setTimeLeft(null);
   };
 
-  const formatTime = (date: Date): string => format(date, 'HH:mm');
+  const formatTime = (date: Date): string => format(date, 'HH:mm:ss');
   const formatCountdown = (ms: number): string => {
     const hours = Math.floor(ms / (1000 * 60 * 60));
     const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
@@ -59,41 +55,57 @@ export default function PunchClock(): JSX.Element {
   return (
     <View className="flex-1 bg-gray-900 items-center justify-center p-5">
       <View className="bg-gray-800 p-5 rounded-lg w-full mb-5">
-        <Text className="text-2xl font-bold text-white mb-2.5">打卡提醒</Text>
-        <Text className="text-white text-base mb-1">
-          當前時間：{formatTime(currentTime)}
-        </Text>
-        {punchTime && (
-          <Text className="text-white text-base mb-1">
-            上班時間：{formatTime(punchTime)}
-          </Text>
-        )}
-        {endTime && (
-          <Text className="text-white text-base mb-1">
-            下班時間：{formatTime(endTime)}
-          </Text>
-        )}
-        {timeLeft !== null && (
-          <Text className="text-white text-base mb-1">
-            倒計時：{formatCountdown(timeLeft)}
-          </Text>
-        )}
+        <Text className="text-3xl font-bold text-white mb-5">打卡提醒</Text>
+        <View className="">
+          <View className="flex-row justify-between mb-2">
+            <Text className="text-white text-base mb-1">當前時間：</Text>
+            <Text className="text-white text-base mb-1">
+              {formatTime(currentTime)}
+            </Text>
+          </View>
+          {punchTime && (
+            <View className="flex-row justify-between mb-2">
+              <Text className="text-white text-base mb-1">上班時間：</Text>
+              <Text className="text-white text-base mb-1">
+                {formatTime(punchTime)}
+              </Text>
+            </View>
+          )}
+          {endTime && (
+            <View className="flex-row justify-between mb-2">
+              <Text className="text-white text-base mb-1">下班時間：</Text>
+              <Text className="text-white text-base mb-1">
+                {formatTime(endTime)}
+              </Text>
+            </View>
+          )}
+          {timeLeft !== null && (
+            <View className="flex-row justify-between mb-2">
+              <Text className="text-white text-base mb-1">倒數計時：</Text>
+              <Text className="text-white text-base mb-1">
+                {formatCountdown(timeLeft)}
+              </Text>
+            </View>
+          )}
+        </View>
       </View>
       <View className="flex-row justify-around w-full">
-        <TouchableOpacity
-          className="w-[120px] h-[120px] rounded-full bg-blue-600 justify-center items-center active:bg-blue-700"
-          onPress={handlePunch}
-        >
-          <Text className="text-white text-xl font-bold">
-            {punchTime ? '重新打卡' : '打卡'}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="w-[120px] h-[120px] rounded-full bg-red-600 justify-center items-center active:bg-red-700"
-          onPress={handleReset}
-        >
-          <Text className="text-white text-xl font-bold">重置</Text>
-        </TouchableOpacity>
+        {punchTime === null && (
+          <TouchableOpacity
+            className="w-[120px] h-[120px] rounded-full bg-blue-600 justify-center items-center active:bg-blue-700"
+            onPress={handlePunch}
+          >
+            <Text className="text-white text-xl font-bold">打卡</Text>
+          </TouchableOpacity>
+        )}
+        {punchTime !== null && (
+          <TouchableOpacity
+            className="w-[120px] h-[120px] rounded-full bg-red-600 justify-center items-center active:bg-red-700"
+            onPress={handleReset}
+          >
+            <Text className="text-white text-xl font-bold">重置</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
