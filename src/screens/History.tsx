@@ -1,6 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { View, Text } from 'react-native';
-import { PunchHistoryListContext } from '../context/PunchHistoryList';
+import { PunchHistoryListContext } from '@/context/PunchHistoryList';
 export default function HistoryScreen(): JSX.Element {
   const { contextPunchHistoryList: punchHistoryList } = useContext(
     PunchHistoryListContext

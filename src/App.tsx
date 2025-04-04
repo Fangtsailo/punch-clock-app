@@ -3,9 +3,9 @@ import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import PunchClock from './screens/PunchClock';
-import HistoryScreen from './screens/History';
-import { PunchHistoryListProvider } from './context/PunchHistoryList';
+import PunchClock from '@/screens/PunchClock';
+import HistoryScreen from '@/screens/History';
+import { PunchHistoryListProvider } from '@/context/PunchHistoryList';
 
 const Drawer = createDrawerNavigator();
 

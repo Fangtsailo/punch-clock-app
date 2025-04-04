@@ -4,7 +4,7 @@ import { Alert, TouchableOpacity, View, Text } from 'react-native';
 import {
   PunchHistory,
   PunchHistoryListContext,
-} from '../context/PunchHistoryList';
+} from '@/context/PunchHistoryList';
 
 export default function PunchClock(): JSX.Element {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
