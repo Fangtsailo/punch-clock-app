@@ -1,1 +1,1 @@
-/// <reference types="react-native" /> 
+/// <reference types="react-native" />
