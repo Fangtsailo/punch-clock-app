@@ -6,19 +6,26 @@ export interface PunchHistory {
 }
 
 export const PunchHistoryListContext = createContext<{
-  data: PunchHistory[];
-  setData: (data: PunchHistory[]) => void;
-}>({ data: [], setData: () => {} });
+  contextPunchHistoryList: PunchHistory[];
+  setContextPunchHistoryList: (data: PunchHistory[]) => void;
+}>({ contextPunchHistoryList: [], setContextPunchHistoryList: () => {} });
 
 export const PunchHistoryListProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [data, setData] = useState<PunchHistory[]>([]);
+  const [contextPunchHistoryList, setContextPunchHistoryList] = useState<
+    PunchHistory[]
+  >([]);
 
   return (
-    <PunchHistoryListContext.Provider value={{ data, setData }}>
+    <PunchHistoryListContext.Provider
+      value={{
+        contextPunchHistoryList,
+        setContextPunchHistoryList,
+      }}
+    >
       {children}
     </PunchHistoryListContext.Provider>
   );
