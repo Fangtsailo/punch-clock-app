@@ -17,7 +17,10 @@ import Swipeable, {
 } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { Icon } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
-
+import PageContainer from '@/components/PageContainer';
+import PageHeader from '@/components/PageHeader';
+import BaseText from '@/components/BaseText';
+import RowContainer from '@/components/RowContainer';
 export default function HistoryScreen(): JSX.Element {
   const {
     contextPunchHistoryList: contextPunchHistoryList,
@@ -48,7 +51,7 @@ export default function HistoryScreen(): JSX.Element {
     Object.create(null)
   );
   useEffect(() => {
-    if (isFocused) {
+    if (!isFocused) {
       Object.values(swipeableRefs.current).forEach((ref) => {
         ref?.close?.();
       });
@@ -67,31 +70,30 @@ export default function HistoryScreen(): JSX.Element {
         }}
         renderRightActions={() => renderRightActions(record.id)}
       >
-        <View key={index} className="flex-row justify-between bg-gray-900">
-          <Text className="text-white text-base mb-4">{record.date}</Text>
-          <Text className="text-white text-base mb-4">{record.time}</Text>
-        </View>
+        <RowContainer>
+          <BaseText text={`${index < 9 ? '0' : ''}${index + 1}.`} />
+          <BaseText text={record.date} />
+          <BaseText text={record.time} />
+        </RowContainer>
       </Swipeable>
     );
   };
-  const styles = StyleSheet.create({
-    inactive: {
-      color: '#F56565',
-    },
-  });
   return (
-    <View className="flex-1 bg-gray-900 p-5">
-      <View className="flex-row justify-between items-center mb-8">
-        <Text className="text-2xl font-bold text-white">打卡歷史</Text>
-        <TouchableOpacity onPress={() => removeAllItems()}>
-          <Text
-            className="text-base text-gray-400 font-thin"
-            style={contextPunchHistoryList.length > 0 && styles.inactive}
-          >
-            刪除全部
-          </Text>
+    <PageContainer>
+      <PageHeader title="打卡歷史" icon="history">
+        <TouchableOpacity
+          onPress={() => removeAllItems()}
+          style={{
+            paddingTop: 6,
+          }}
+        >
+          <Icon
+            source="delete-sweep-outline"
+            size={28}
+            color={contextPunchHistoryList.length > 0 ? '#F56565' : '#A1A1AA'}
+          />
         </TouchableOpacity>
-      </View>
+      </PageHeader>
       <GestureHandlerRootView>
         <FlatList
           keyExtractor={(item) => item.id}
@@ -99,6 +101,6 @@ export default function HistoryScreen(): JSX.Element {
           renderItem={({ item, index }) => punchHistoryItem(item, index)}
         />
       </GestureHandlerRootView>
-    </View>
+    </PageContainer>
   );
 }
