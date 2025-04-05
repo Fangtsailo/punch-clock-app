@@ -53,6 +53,9 @@ importers:
       react-native-uuid:
         specifier: ^2.0.3
         version: 2.0.3
+      react-native-vector-icons:
+        specifier: ^10.2.0
+        version: 10.2.0
     devDependencies:
       '@babel/core':
         specifier: ^7.20.0
