@@ -1,6 +1,7 @@
 import { format, isSameDay } from 'date-fns';
 import { useContext, useEffect, useState } from 'react';
 import { Alert, TouchableOpacity, View, Text } from 'react-native';
+import uuid from 'react-native-uuid';
 import {
   PunchHistory,
   PunchHistoryListContext,
@@ -32,6 +33,7 @@ export default function PunchClock(): JSX.Element {
     const end = new Date(now.getTime() + workDuration);
     setEndTime(end);
     const newRecord: PunchHistory = {
+      id: uuid.v4(),
       date: format(now, 'yyyy-MM-dd'),
       time: format(now, 'HH:mm'),
     };

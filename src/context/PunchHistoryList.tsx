@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 
 export interface PunchHistory {
+  id: string;
   date: string;
   time: string;
 }
