@@ -17,6 +17,7 @@ import Swipeable, {
 } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { Icon } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
+import PageContainer from '@/components/PageContainer';
 
 export default function HistoryScreen(): JSX.Element {
   const {
@@ -80,7 +81,7 @@ export default function HistoryScreen(): JSX.Element {
     },
   });
   return (
-    <View className="flex-1 bg-gray-900 p-5">
+    <PageContainer>
       <View className="flex-row justify-between items-center mb-8">
         <Text className="text-2xl font-bold text-white">打卡歷史</Text>
         <TouchableOpacity onPress={() => removeAllItems()}>
@@ -99,6 +100,6 @@ export default function HistoryScreen(): JSX.Element {
           renderItem={({ item, index }) => punchHistoryItem(item, index)}
         />
       </GestureHandlerRootView>
-    </View>
+    </PageContainer>
   );
 }

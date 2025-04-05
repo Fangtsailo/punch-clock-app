@@ -6,6 +6,7 @@ import {
   PunchHistory,
   PunchHistoryListContext,
 } from '@/context/PunchHistoryList';
+import PageContainer from '@/components/PageContainer';
 
 export default function PunchClock(): JSX.Element {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
@@ -55,60 +56,62 @@ export default function PunchClock(): JSX.Element {
   };
 
   return (
-    <View className="flex-1 bg-gray-900 items-center justify-center p-5">
-      <View className="bg-gray-800 p-5 rounded-lg w-full mb-5">
-        <Text className="text-3xl font-bold text-white mb-5">打卡提醒</Text>
-        <View className="">
-          <View className="flex-row justify-between mb-2">
-            <Text className="text-white text-base mb-1">當前時間：</Text>
-            <Text className="text-white text-base mb-1">
-              {formatTime(currentTime)}
-            </Text>
+    <PageContainer>
+      <View className="flex-1 items-center justify-center">
+        <View className="bg-gray-800 p-5 rounded-lg w-full mb-5">
+          <Text className="text-3xl font-bold text-white mb-5">打卡提醒</Text>
+          <View className="">
+            <View className="flex-row justify-between mb-2">
+              <Text className="text-white text-base mb-1">當前時間：</Text>
+              <Text className="text-white text-base mb-1">
+                {formatTime(currentTime)}
+              </Text>
+            </View>
+            {punchTime && (
+              <View className="flex-row justify-between mb-2">
+                <Text className="text-white text-base mb-1">上班時間：</Text>
+                <Text className="text-white text-base mb-1">
+                  {formatTime(punchTime)}
+                </Text>
+              </View>
+            )}
+            {endTime && (
+              <View className="flex-row justify-between mb-2">
+                <Text className="text-white text-base mb-1">下班時間：</Text>
+                <Text className="text-white text-base mb-1">
+                  {formatTime(endTime)}
+                </Text>
+              </View>
+            )}
+            {timeLeft !== null && (
+              <View className="flex-row justify-between mb-2">
+                <Text className="text-white text-base mb-1">倒數計時：</Text>
+                <Text className="text-white text-base mb-1">
+                  {formatCountdown(timeLeft)}
+                </Text>
+              </View>
+            )}
           </View>
-          {punchTime && (
-            <View className="flex-row justify-between mb-2">
-              <Text className="text-white text-base mb-1">上班時間：</Text>
-              <Text className="text-white text-base mb-1">
-                {formatTime(punchTime)}
-              </Text>
-            </View>
+        </View>
+        <View className="flex-row justify-around w-full">
+          {punchTime === null && (
+            <TouchableOpacity
+              className="w-[120px] h-[120px] rounded-full bg-blue-600 justify-center items-center active:bg-blue-700"
+              onPress={handlePunch}
+            >
+              <Text className="text-white text-xl font-bold">打卡</Text>
+            </TouchableOpacity>
           )}
-          {endTime && (
-            <View className="flex-row justify-between mb-2">
-              <Text className="text-white text-base mb-1">下班時間：</Text>
-              <Text className="text-white text-base mb-1">
-                {formatTime(endTime)}
-              </Text>
-            </View>
-          )}
-          {timeLeft !== null && (
-            <View className="flex-row justify-between mb-2">
-              <Text className="text-white text-base mb-1">倒數計時：</Text>
-              <Text className="text-white text-base mb-1">
-                {formatCountdown(timeLeft)}
-              </Text>
-            </View>
+          {punchTime !== null && (
+            <TouchableOpacity
+              className="w-[120px] h-[120px] rounded-full bg-red-600 justify-center items-center active:bg-red-700"
+              onPress={handleReset}
+            >
+              <Text className="text-white text-xl font-bold">重置</Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>
-      <View className="flex-row justify-around w-full">
-        {punchTime === null && (
-          <TouchableOpacity
-            className="w-[120px] h-[120px] rounded-full bg-blue-600 justify-center items-center active:bg-blue-700"
-            onPress={handlePunch}
-          >
-            <Text className="text-white text-xl font-bold">打卡</Text>
-          </TouchableOpacity>
-        )}
-        {punchTime !== null && (
-          <TouchableOpacity
-            className="w-[120px] h-[120px] rounded-full bg-red-600 justify-center items-center active:bg-red-700"
-            onPress={handleReset}
-          >
-            <Text className="text-white text-xl font-bold">重置</Text>
-          </TouchableOpacity>
-        )}
-      </View>
-    </View>
+    </PageContainer>
   );
 }
